@@ -1,15 +1,12 @@
 package com.mastery.java.task.dao.impl;
 
 import com.mastery.java.task.dao.EmployeeDao;
-import com.mastery.java.task.exception.EmployeeNotFoundException;
 import com.mastery.java.task.mapper.EmployeeRowMapper;
 import com.mastery.java.task.model.Employee;
-import com.mastery.java.task.model.Gender;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -27,18 +24,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     @Override
-    public Employee findEmployeeById(int id) {
-        return Objects.requireNonNull(jdbcTemplate.queryForObject(
-                "select * from employee where employee_id = ?",
-                (resultSet, columnLabel) -> Optional.of(new Employee(
-                        resultSet.getInt("employee_id"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
-                        resultSet.getInt("department_id"),
-                        resultSet.getString("job_title"),
-                        Gender.valueOf(resultSet.getString("gender")),
-                        resultSet.getDate("date_of_birth").toLocalDate())),
-                id)).orElseThrow(EmployeeNotFoundException::new);
+    public Optional<Employee> findEmployeeById(int id) {
+        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from employee where employee_id = ?", new EmployeeRowMapper(), id));
     }
 
     @Override
