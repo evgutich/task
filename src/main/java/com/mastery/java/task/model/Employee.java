@@ -8,13 +8,13 @@ public class Employee {
     private String lastName;
     private int departmentId;
     private String jobTitle;
-    private char gender;
+    private Gender gender;
     private LocalDate dateOfBirth;
 
     public Employee() {
     }
 
-    public Employee(int employeeId, String firstName, String lastName, int departmentId, String jobTitle, char gender, LocalDate dateOfBirth) {
+    public Employee(int employeeId, String firstName, String lastName, int departmentId, String jobTitle, Gender gender, LocalDate dateOfBirth) {
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -64,11 +64,11 @@ public class Employee {
         this.jobTitle = jobTitle;
     }
 
-    public char getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

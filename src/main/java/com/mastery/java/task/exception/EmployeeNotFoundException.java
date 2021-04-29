@@ -1,4 +1,4 @@
 package com.mastery.java.task.exception;
 
-public class EmployeeNotFoundException extends RuntimeException{
+public class EmployeeNotFoundException extends RuntimeException {
 }
