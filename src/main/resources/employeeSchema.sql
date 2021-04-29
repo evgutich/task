@@ -6,7 +6,6 @@ CREATE TABLE employee (
     last_name varchar (30) DEFAULT NULL,
     department_id integer,
     job_title varchar (100),
---     gender char (1),
     gender gender,
     date_of_birth date DEFAULT NULL
 );
