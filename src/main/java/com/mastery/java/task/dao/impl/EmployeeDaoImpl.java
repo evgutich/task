@@ -3,6 +3,7 @@ package com.mastery.java.task.dao.impl;
 import com.mastery.java.task.dao.EmployeeDao;
 import com.mastery.java.task.mapper.EmployeeRowMapper;
 import com.mastery.java.task.model.Employee;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +26,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public Optional<Employee> findEmployeeById(int id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from employee where employee_id = ?", new EmployeeRowMapper(), id));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from employee where employee_id = ?", new EmployeeRowMapper(), id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
