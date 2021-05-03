@@ -1,6 +1,7 @@
 package com.mastery.java.task.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Employee {
     private int employeeId;
@@ -78,5 +79,18 @@ public class Employee {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return employeeId == employee.employeeId && departmentId == employee.departmentId && firstName.equals(employee.firstName) && lastName.equals(employee.lastName) && jobTitle.equals(employee.jobTitle) && gender == employee.gender && dateOfBirth.equals(employee.dateOfBirth);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(employeeId, firstName, lastName, departmentId, jobTitle, gender, dateOfBirth);
     }
 }
