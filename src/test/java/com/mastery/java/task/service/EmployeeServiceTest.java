@@ -5,8 +5,8 @@ import com.mastery.java.task.exception.EmployeeNotFoundException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.model.Gender;
 import com.mastery.java.task.service.impl.EmployeeServiceImpl;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,9 +29,9 @@ public class EmployeeServiceTest {
     @Mock
     EmployeeDaoImpl dao;
 
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -46,7 +47,7 @@ public class EmployeeServiceTest {
 
         List<Employee> employeeList = service.findAll();
 
-        assertEquals(2, employeeList.size());
+        assertEquals(employees, employeeList);
         verify(dao).findAll();
     }
 
@@ -58,12 +59,14 @@ public class EmployeeServiceTest {
         Employee employee = service.findEmployeeById(1);
 
         assertEquals(expectedEmployee, employee);
+        verify(dao).findEmployeeById(1);
     }
 
-    @Test(expected = EmployeeNotFoundException.class)
+    @Test
     public void findEmployeeByIdExceptionTest() {
         when(dao.findEmployeeById(1)).thenReturn(Optional.empty());
-        when(service.findEmployeeById(1)).thenThrow(new EmployeeNotFoundException());
+        assertThrows(EmployeeNotFoundException.class, () -> service.findEmployeeById(1));
+        verify(dao).findEmployeeById(1);
     }
 
     @Test
@@ -81,7 +84,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void deleteEmployeeTest(){
+    public void deleteEmployeeTest() {
         Employee emp = new Employee(1, "Ivan", "Ivan", 1, "developer", Gender.MALE, LocalDate.of(1990, 1, 12));
         service.deleteEmployee(emp);
         verify(dao).deleteEmployee(emp);
