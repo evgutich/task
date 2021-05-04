@@ -24,10 +24,10 @@ import static org.mockito.Mockito.when;
 public class EmployeeServiceTest {
 
     @InjectMocks
-    EmployeeServiceImpl service;
+    private EmployeeServiceImpl service;
 
     @Mock
-    EmployeeDaoImpl dao;
+    private EmployeeDaoImpl dao;
 
     @BeforeEach
     public void setUp() {
@@ -36,18 +36,18 @@ public class EmployeeServiceTest {
 
     @Test
     public void findAllEmployeesTest() {
-        List<Employee> employees = new ArrayList<>();
+        List<Employee> expectedEmployeeList = new ArrayList<>();
         Employee empOne = new Employee(1, "Ivan", "Ivanov", 1, "developer", Gender.MALE, LocalDate.of(1990, 1, 12));
         Employee empTwo = new Employee(2, "Elena", "Petrova", 2, "hr", Gender.FEMALE, LocalDate.of(1990, 2, 22));
 
-        employees.add(empOne);
-        employees.add(empTwo);
+        expectedEmployeeList.add(empOne);
+        expectedEmployeeList.add(empTwo);
 
-        when(dao.findAll()).thenReturn(employees);
+        when(dao.findAll()).thenReturn(expectedEmployeeList);
 
         List<Employee> employeeList = service.findAll();
 
-        assertEquals(employees, employeeList);
+        assertEquals(expectedEmployeeList, employeeList);
         verify(dao).findAll();
     }
 
