@@ -85,8 +85,7 @@ public class EmployeeServiceTest {
 
     @Test
     public void deleteEmployeeTest() {
-        Employee emp = new Employee(1, "Ivan", "Ivan", 1, "developer", Gender.MALE, LocalDate.of(1990, 1, 12));
-        service.deleteEmployee(emp);
-        verify(dao).deleteEmployee(emp);
+        service.deleteEmployee(1);
+        verify(dao).deleteEmployee(1);
     }
 }
