@@ -41,10 +41,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
+    public void updateEmployee(int id, Employee employee) {
         jdbcTemplate.update(
                 "update employee set first_name = ?, last_name = ?, department_id = ?, job_title = ?, gender = ?::gender, date_of_birth = ? where employee_id = ?",
-                employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(), employee.getJobTitle(), employee.getGender().name(), employee.getDateOfBirth(), employee.getEmployeeId());
+                employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(), employee.getJobTitle(), employee.getGender().name(), employee.getDateOfBirth(), id);
     }
 
     @Override
