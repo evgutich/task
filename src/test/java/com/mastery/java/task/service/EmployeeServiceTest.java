@@ -79,8 +79,8 @@ public class EmployeeServiceTest {
     @Test
     public void updateEmployeeTest() {
         Employee emp = new Employee(1, "Ivan", "Ivan", 1, "developer", Gender.MALE, LocalDate.of(1990, 1, 12));
-        service.updateEmployee(emp);
-        verify(dao).updateEmployee(emp);
+        service.updateEmployee(1 ,emp);
+        verify(dao).updateEmployee(1, emp);
     }
 
     @Test

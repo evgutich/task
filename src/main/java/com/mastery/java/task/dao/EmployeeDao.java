@@ -13,7 +13,7 @@ public interface EmployeeDao {
 
     void createEmployee(Employee employee);
 
-    void updateEmployee(Employee employee);
+    void updateEmployee(int id, Employee employee);
 
     void deleteEmployee(int id);
 
