@@ -34,11 +34,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void updateEmployee(int id, Employee employee) {
+        Employee existingEmployee = employeeDao.findEmployeeById(id).orElseThrow((() -> new EmployeeNotFoundException(id)));
+        existingEmployee.setFirstName(employee.getFirstName());
+        existingEmployee.setLastName(employee.getLastName());
+        existingEmployee.setDepartmentId(employee.getDepartmentId());
+        existingEmployee.setJobTitle(employee.getJobTitle());
+        existingEmployee.setGender(employee.getGender());
+        existingEmployee.setDateOfBirth(employee.getDateOfBirth());
         employeeDao.updateEmployee(id, employee);
     }
 
     @Override
     public void deleteEmployee(int id) {
-        employeeDao.deleteEmployee(id);
+        Employee existingEmployee = employeeDao.findEmployeeById(id).orElseThrow((() -> new EmployeeNotFoundException(id)));
+        employeeDao.deleteEmployee(existingEmployee.getEmployeeId());
     }
 }

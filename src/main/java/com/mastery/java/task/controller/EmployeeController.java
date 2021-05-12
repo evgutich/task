@@ -28,6 +28,7 @@ public class EmployeeController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void createEmployee(@RequestBody Employee employee) {
         employeeService.createEmployee(employee);
     }
