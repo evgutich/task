@@ -28,12 +28,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void createEmployee(Employee employee) {
-        employeeDao.createEmployee(employee);
+    public Employee createEmployee(Employee employee) {
+        return employeeDao.createEmployee(employee);
     }
 
     @Override
-    public void updateEmployee(int id, Employee employee) {
+    public Employee updateEmployee(int id, Employee employee) {
         Employee existingEmployee = employeeDao.findEmployeeById(id).orElseThrow((() -> new EmployeeNotFoundException(id)));
         existingEmployee.setFirstName(employee.getFirstName());
         existingEmployee.setLastName(employee.getLastName());
@@ -41,7 +41,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         existingEmployee.setJobTitle(employee.getJobTitle());
         existingEmployee.setGender(employee.getGender());
         existingEmployee.setDateOfBirth(employee.getDateOfBirth());
-        employeeDao.updateEmployee(id, employee);
+        return employeeDao.updateEmployee(id, employee);
     }
 
     @Override

@@ -5,8 +5,11 @@ import com.mastery.java.task.mapper.EmployeeRowMapper;
 import com.mastery.java.task.model.Employee;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,18 +36,40 @@ public class EmployeeDaoImpl implements EmployeeDao {
         }
     }
 
+//    @Override
+//    public Employee createEmployee(Employee employee) {
+//        KeyHolder keyHolder = new GeneratedKeyHolder();
+//        jdbcTemplate.update(
+//                "insert into employee(first_name, last_name, department_id, job_title, gender, date_of_birth) values (?, ?, ?, ?, ?::gender, ?)",
+//                employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(), employee.getJobTitle(), employee.getGender().name(), employee.getDateOfBirth(), keyHolder, new String[] {"employee_id"});
+////        employee.setEmployeeId(keyHolder.getKey().intValue());
+//        return employee;
+//    }
+
     @Override
-    public void createEmployee(Employee employee) {
-        jdbcTemplate.update(
-                "insert into employee(first_name, last_name, department_id, job_title, gender, date_of_birth) values (?, ?, ?, ?, ?::gender, ?)",
-                employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(), employee.getJobTitle(), employee.getGender().name(), employee.getDateOfBirth());
+    public Employee createEmployee(Employee employee) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement("insert into employee(first_name, last_name, department_id, job_title, gender, date_of_birth) values (?, ?, ?, ?, ?::gender, ?)", new String[]{"employee_id"});
+            ps.setString(1, employee.getFirstName());
+            ps.setString(2, employee.getLastName());
+            ps.setInt(3, employee.getDepartmentId());
+            ps.setString(4, employee.getJobTitle());
+            ps.setString(5, employee.getGender().toString());
+            ps.setObject(6, employee.getDateOfBirth());
+            return ps;
+        }, keyHolder);
+        employee.setEmployeeId(keyHolder.getKey().intValue());
+        return employee;
     }
 
     @Override
-    public void updateEmployee(int id, Employee employee) {
+    public Employee updateEmployee(int id, Employee employee) {
         jdbcTemplate.update(
                 "update employee set first_name = ?, last_name = ?, department_id = ?, job_title = ?, gender = ?::gender, date_of_birth = ? where employee_id = ?",
                 employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(), employee.getJobTitle(), employee.getGender().name(), employee.getDateOfBirth(), id);
+//        employee.setEmployeeId(id);
+        return employee;
     }
 
     @Override
