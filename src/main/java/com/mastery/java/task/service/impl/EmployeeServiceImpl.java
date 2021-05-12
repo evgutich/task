@@ -24,7 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findEmployeeById(int id) {
-        return employeeDao.findEmployeeById(id).orElseThrow(EmployeeNotFoundException::new);
+        return employeeDao.findEmployeeById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
     @Override
