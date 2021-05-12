@@ -36,21 +36,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
         }
     }
 
-//    @Override
-//    public Employee createEmployee(Employee employee) {
-//        KeyHolder keyHolder = new GeneratedKeyHolder();
-//        jdbcTemplate.update(
-//                "insert into employee(first_name, last_name, department_id, job_title, gender, date_of_birth) values (?, ?, ?, ?, ?::gender, ?)",
-//                employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(), employee.getJobTitle(), employee.getGender().name(), employee.getDateOfBirth(), keyHolder, new String[] {"employee_id"});
-////        employee.setEmployeeId(keyHolder.getKey().intValue());
-//        return employee;
-//    }
-
     @Override
     public Employee createEmployee(Employee employee) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement("insert into employee(first_name, last_name, department_id, job_title, gender, date_of_birth) values (?, ?, ?, ?, ?::gender, ?)", new String[]{"employee_id"});
+            PreparedStatement ps = connection.prepareStatement("insert into employee(first_name, last_name, department_id, job_title, gender, date_of_birth) values (?, ?, ?, ?, CAST(? AS gender), ?)", new String[]{"employee_id"});
             ps.setString(1, employee.getFirstName());
             ps.setString(2, employee.getLastName());
             ps.setInt(3, employee.getDepartmentId());
@@ -68,7 +58,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         jdbcTemplate.update(
                 "update employee set first_name = ?, last_name = ?, department_id = ?, job_title = ?, gender = ?::gender, date_of_birth = ? where employee_id = ?",
                 employee.getFirstName(), employee.getLastName(), employee.getDepartmentId(), employee.getJobTitle(), employee.getGender().name(), employee.getDateOfBirth(), id);
-//        employee.setEmployeeId(id);
+        employee.setEmployeeId(id);
         return employee;
     }
 
