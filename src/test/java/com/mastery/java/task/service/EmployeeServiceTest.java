@@ -72,7 +72,12 @@ public class EmployeeServiceTest {
     @Test
     public void createEmployeeTest() {
         Employee emp = new Employee(1, "Ivan", "Ivanov", 1, "developer", Gender.MALE, LocalDate.of(1990, 1, 12));
-        service.createEmployee(emp);
+
+        when(dao.createEmployee(emp)).thenReturn(emp);
+        Employee employee = service.createEmployee(emp);
+
+        assertEquals(emp, employee);
+
         verify(dao).createEmployee(emp);
     }
 
@@ -82,7 +87,10 @@ public class EmployeeServiceTest {
         Employee empNew = new Employee(1, "Elena", "Petrova", 2, "hr", Gender.FEMALE, LocalDate.of(1990, 2, 22));
 
         when(dao.findEmployeeById(1)).thenReturn(Optional.of(empOld));
-        service.updateEmployee(empOld.getEmployeeId(), empNew);
+        when(dao.updateEmployee(empOld.getEmployeeId(), empNew)).thenReturn(empNew);
+        Employee employee = service.updateEmployee(empOld.getEmployeeId(), empNew);
+
+        assertEquals(empNew, employee);
 
         verify(dao).findEmployeeById(1);
         verify(dao).updateEmployee(1, empNew);

@@ -2,7 +2,7 @@ package com.mastery.java.task.exception;
 
 public class ErrorResponse {
 
-    private String errorMessage;
+    final private String errorMessage;
 
     public ErrorResponse(String errorMessage) {
         this.errorMessage = errorMessage;
