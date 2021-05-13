@@ -78,14 +78,24 @@ public class EmployeeServiceTest {
 
     @Test
     public void updateEmployeeTest() {
-        Employee emp = new Employee(1, "Ivan", "Ivan", 1, "developer", Gender.MALE, LocalDate.of(1990, 1, 12));
-        service.updateEmployee(1 ,emp);
-        verify(dao).updateEmployee(1, emp);
+        Employee empOld = new Employee(1, "Ivan", "Ivan", 1, "developer", Gender.MALE, LocalDate.of(1990, 1, 12));
+        Employee empNew = new Employee(1, "Elena", "Petrova", 2, "hr", Gender.FEMALE, LocalDate.of(1990, 2, 22));
+
+        when(dao.findEmployeeById(1)).thenReturn(Optional.of(empOld));
+        service.updateEmployee(empOld.getEmployeeId(), empNew);
+
+        verify(dao).findEmployeeById(1);
+        verify(dao).updateEmployee(1, empNew);
     }
 
     @Test
     public void deleteEmployeeTest() {
-        service.deleteEmployee(1);
-        verify(dao).deleteEmployee(1);
+        Employee emp = new Employee(1, "Ivan", "Ivan", 1, "developer", Gender.MALE, LocalDate.of(1990, 1, 12));
+
+        when(dao.findEmployeeById(1)).thenReturn(Optional.of(emp));
+        service.deleteEmployee(emp.getEmployeeId());
+
+        verify(dao).findEmployeeById(1);
+        verify(dao).deleteEmployee(emp.getEmployeeId());
     }
 }

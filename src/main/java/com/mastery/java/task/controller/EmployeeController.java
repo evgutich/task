@@ -29,14 +29,14 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createEmployee(@RequestBody Employee employee) {
-        employeeService.createEmployee(employee);
+    public Employee createEmployee(@RequestBody Employee employee) {
+        return employeeService.createEmployee(employee);
     }
 
 
     @PutMapping("/{employeeId}")
-    public void updateEmployee(@PathVariable int employeeId, @RequestBody Employee employee) {
-        employeeService.updateEmployee(employeeId, employee);
+    public Employee updateEmployee(@PathVariable int employeeId, @RequestBody Employee employee) {
+        return employeeService.updateEmployee(employeeId, employee);
     }
 
     @DeleteMapping("/{employeeId}")
