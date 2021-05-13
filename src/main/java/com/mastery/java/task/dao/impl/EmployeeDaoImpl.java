@@ -40,7 +40,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public Employee createEmployee(Employee employee) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement("insert into employee(first_name, last_name, department_id, job_title, gender, date_of_birth) values (?, ?, ?, ?, CAST(? AS gender), ?)", new String[]{"employee_id"});
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into employee(first_name, last_name, department_id, job_title, gender, date_of_birth) values (?, ?, ?, ?, CAST(? AS gender), ?)",
+                    new String[]{"employee_id"});
             ps.setString(1, employee.getFirstName());
             ps.setString(2, employee.getLastName());
             ps.setInt(3, employee.getDepartmentId());
